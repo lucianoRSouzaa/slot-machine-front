@@ -1,4 +1,5 @@
 import { SlotMachine } from "@/components/SlotMachine";
+import "./globals.css";
 
 export default function Home() {
   return (
