@@ -1,8 +1,10 @@
-import React, { useState, useEffect } from 'react';
-import axios from 'axios';
-import styles from './SlotMachine.module.css';
+"use client";
 
-const symbols: string[] = ['🤑', '🥶', '👽', '❤️‍🔥', '💥'];
+import React, { useState, useEffect } from "react";
+import axios from "axios";
+import styles from "./SlotMachine.module.css";
+
+const symbols: string[] = ["🤑", "🥶", "👽", "❤️‍🔥", "💥"];
 
 const mapSymbolToValue: { [key: string]: number } = {
   money_mouth_face: 0,
@@ -18,11 +20,11 @@ interface ApiResponse {
 }
 
 const fetchResultsFromAPI = async (): Promise<number[]> => {
-    const response = await axios.post<ApiResponse>('/api/play', {
-        player_id: 'player1',
-        machine_id: 'machine5',
-        amount_bet: 50,
-    });
+  const response = await axios.post<ApiResponse>("/api/play", {
+    player_id: "player1",
+    machine_id: "machine5",
+    amount_bet: 50,
+  });
 
   const data = response.data;
 
@@ -46,7 +48,7 @@ const fetchResultsFromAPI = async (): Promise<number[]> => {
 export const SlotMachine: React.FC = () => {
   const [reelSymbols, setReelSymbols] = useState<string[][]>([]);
   const [spinning, setSpinning] = useState(false);
-  const [message, setMessage] = useState('');
+  const [message, setMessage] = useState("");
   const [reelPositions, setReelPositions] = useState<number[]>([0, 0, 0]);
 
   useEffect(() => {
@@ -54,9 +56,7 @@ export const SlotMachine: React.FC = () => {
     for (let i = 0; i < 3; i++) {
       const symbolsArray: string[] = [];
       for (let j = 0; j < 3; j++) {
-        symbolsArray.push(
-          symbols[Math.floor(Math.random() * symbols.length)]
-        );
+        symbolsArray.push(symbols[Math.floor(Math.random() * symbols.length)]);
       }
       initialSymbols.push(symbolsArray);
     }
@@ -66,7 +66,7 @@ export const SlotMachine: React.FC = () => {
   const spin = async () => {
     if (reelSymbols.length === 0) return;
 
-    setMessage('');
+    setMessage("");
     setSpinning(true);
 
     const apiResult = await fetchResultsFromAPI();
@@ -83,9 +83,7 @@ export const SlotMachine: React.FC = () => {
     for (let i = 0; i < 3; i++) {
       const spinSymbols: string[] = [];
       for (let j = 0; j < 30; j++) {
-        spinSymbols.push(
-          symbols[Math.floor(Math.random() * symbols.length)]
-        );
+        spinSymbols.push(symbols[Math.floor(Math.random() * symbols.length)]);
       }
       spinSymbols.splice(spinSymbols.length - 1, 0, symbols[apiResult[i]]);
 
@@ -100,10 +98,10 @@ export const SlotMachine: React.FC = () => {
 
     setTimeout(() => {
       setSpinning(false);
-      if (apiResult.every(val => val === apiResult[0])) {
-        setMessage('Você venceu!');
+      if (apiResult.every((val) => val === apiResult[0])) {
+        setMessage("Você venceu!");
       } else {
-        setMessage('Tente novamente!');
+        setMessage("Tente novamente!");
       }
 
       const totalShift: number[] = [];
@@ -111,7 +109,7 @@ export const SlotMachine: React.FC = () => {
         totalShift[i] = Math.floor(Math.abs(newPositions[i]) / 60);
       }
 
-      setReelSymbols(prevReelSymbols =>
+      setReelSymbols((prevReelSymbols) =>
         prevReelSymbols.map((symbolsArray, i) => {
           const symbolsToKeep = symbolsArray.slice(
             totalShift[i],
@@ -126,39 +124,40 @@ export const SlotMachine: React.FC = () => {
   };
 
   return (
-
     <div className={styles.slotMachine}>
-        {reelSymbols.length > 0 ? (
+      {reelSymbols.length > 0 ? (
         <>
-      <div className={styles.reels}>
-        {[0, 1, 2].map((reelIndex) => (
-          <div key={reelIndex} className={styles.reelContainer}>
-            <div
-              className={styles.reel}
-              style={{
-                transform: `translateY(${reelPositions[reelIndex]}px)`,
-                transition: spinning
-                  ? `transform ${2 + reelIndex * 0.5}s cubic-bezier(0.33, 1, 0.68, 1)`
-                  : 'none',
-              }}
-            >
-              {reelSymbols[reelIndex].map((symbol, index) => (
-                <div key={index} className={styles.symbol}>
-                  {symbol}
+          <div className={styles.reels}>
+            {[0, 1, 2].map((reelIndex) => (
+              <div key={reelIndex} className={styles.reelContainer}>
+                <div
+                  className={styles.reel}
+                  style={{
+                    transform: `translateY(${reelPositions[reelIndex]}px)`,
+                    transition: spinning
+                      ? `transform ${
+                          2 + reelIndex * 0.5
+                        }s cubic-bezier(0.33, 1, 0.68, 1)`
+                      : "none",
+                  }}
+                >
+                  {reelSymbols[reelIndex].map((symbol, index) => (
+                    <div key={index} className={styles.symbol}>
+                      {symbol}
+                    </div>
+                  ))}
                 </div>
-              ))}
-            </div>
+              </div>
+            ))}
           </div>
-        ))}
-      </div>
-      <button onClick={spin} disabled={spinning}>
-        Girar
-      </button>
-      {message && <p>{message}</p>}
-      </>  ) : (
+          <button onClick={spin} disabled={spinning}>
+            Girar
+          </button>
+          {message && <p>{message}</p>}
+        </>
+      ) : (
         <p>Carregando...</p>
       )}
     </div>
   );
 };
-
