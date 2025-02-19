@@ -4,6 +4,8 @@ import "./globals.css";
 export default function Home() {
   return (
     <div>
+      <p className="text-primary">Slot Machine</p>
+
       <SlotMachine />
 
       {/* exibir emoji de code: 1F911 */}
