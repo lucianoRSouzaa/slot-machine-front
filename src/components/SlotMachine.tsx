@@ -2,7 +2,6 @@
 
 import React, { useState, useEffect } from "react";
 import axios from "axios";
-import styles from "./SlotMachine.module.css";
 
 const symbols: string[] = ["🤑", "🥶", "👽", "❤️‍🔥", "💥"];
 
@@ -21,9 +20,8 @@ interface ApiResponse {
 
 const fetchResultsFromAPI = async (): Promise<number[]> => {
   const response = await axios.post<ApiResponse>("/api/play", {
-    player_id: "player1",
-    machine_id: "machine5",
-    amount_bet: 50,
+    machine_id: "97a7d476-902e-4dc4-abff-8b8b62666ccb",
+    amount_bet: 1,
   });
 
   const data = response.data;
@@ -124,14 +122,17 @@ export const SlotMachine: React.FC = () => {
   };
 
   return (
-    <div className={styles.slotMachine}>
+    <div className="text-center bg-[#222] max-w-[300px] my-12 mx-auto p-5 rounded-lg">
       {reelSymbols.length > 0 ? (
         <>
-          <div className={styles.reels}>
+          <div className="flex justify-center mb-5 gap-5">
             {[0, 1, 2].map((reelIndex) => (
-              <div key={reelIndex} className={styles.reelContainer}>
+              <div
+                key={reelIndex}
+                className="w-[64px] h-[188px] overflow-hidden border-2 border-[#333] rounded-lg bg-[#333]"
+              >
                 <div
-                  className={styles.reel}
+                  className="flex flex-col"
                   style={{
                     transform: `translateY(${reelPositions[reelIndex]}px)`,
                     transition: spinning
@@ -142,7 +143,10 @@ export const SlotMachine: React.FC = () => {
                   }}
                 >
                   {reelSymbols[reelIndex].map((symbol, index) => (
-                    <div key={index} className={styles.symbol}>
+                    <div
+                      key={index}
+                      className="text-[48px] w-[60px] h-[60px] flex items-center justify-center"
+                    >
                       {symbol}
                     </div>
                   ))}
