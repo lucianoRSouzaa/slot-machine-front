@@ -1,12 +1,15 @@
 import { SlotMachine } from "@/components/SlotMachine";
 import "./globals.css";
+import { Sidebar } from "@/components/sidebar/Sidebar";
 
 export default function Home() {
   return (
-    <div>
-      <p className="text-primary">Slot Machine</p>
+    <div className="flex">
+      <Sidebar />
 
-      <SlotMachine />
+      <div className="flex flex-1 justify-center items-center">
+        <SlotMachine />
+      </div>
 
       {/* exibir emoji de code: 1F911 */}
       <p>
