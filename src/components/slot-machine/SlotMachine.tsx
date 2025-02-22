@@ -2,6 +2,7 @@
 
 import React, { useState, useEffect } from "react";
 import axios from "axios";
+import { Reel } from "./Reel";
 
 const symbols: string[] = ["🤑", "🥶", "👽", "❤️‍🔥", "💥"];
 
@@ -127,31 +128,13 @@ export const SlotMachine: React.FC = () => {
         <>
           <div className="flex justify-center mb-5 gap-5">
             {[0, 1, 2].map((reelIndex) => (
-              <div
+              <Reel
                 key={reelIndex}
-                className="w-[64px] h-[188px] overflow-hidden border-2 border-[#333] rounded-lg bg-[#333]"
-              >
-                <div
-                  className="flex flex-col"
-                  style={{
-                    transform: `translateY(${reelPositions[reelIndex]}px)`,
-                    transition: spinning
-                      ? `transform ${
-                          2 + reelIndex * 0.5
-                        }s cubic-bezier(0.33, 1, 0.68, 1)`
-                      : "none",
-                  }}
-                >
-                  {reelSymbols[reelIndex].map((symbol, index) => (
-                    <div
-                      key={index}
-                      className="text-[48px] w-[60px] h-[60px] flex items-center justify-center"
-                    >
-                      {symbol}
-                    </div>
-                  ))}
-                </div>
-              </div>
+                symbols={reelSymbols[reelIndex]}
+                position={reelPositions[reelIndex]}
+                spinning={spinning}
+                reelIndex={reelIndex}
+              />
             ))}
           </div>
           <button onClick={spin} disabled={spinning}>
