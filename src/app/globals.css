@@ -7,4 +7,6 @@ body {
 @theme {
   --color-backgound: #14181f;
   --color-primary: #ffc800;
+  --color-background-weaker: #1e232b;
+  --color-accent: #ffc800;
 }
