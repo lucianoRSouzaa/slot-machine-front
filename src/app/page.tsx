@@ -1,4 +1,4 @@
-import { SlotMachine } from "@/components/SlotMachine";
+import { SlotMachine } from "@/components/slot-machine/SlotMachine";
 import "./globals.css";
 import { Sidebar } from "@/components/sidebar/Sidebar";
 

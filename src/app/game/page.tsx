@@ -1,4 +1,4 @@
-import { SlotMachine } from "@/components/SlotMachine";
+import { SlotMachine } from "@/components/slot-machine/SlotMachine";
 
 export default function Game() {
   return (
