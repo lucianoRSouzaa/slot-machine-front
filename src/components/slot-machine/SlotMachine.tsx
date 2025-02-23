@@ -6,6 +6,15 @@ import { Reel } from "./Reel";
 
 const symbols: string[] = ["🤑", "🥶", "👽", "❤️‍🔥", "💥"];
 
+// Helper to pick a random emoji excluding given ones.
+const getRandomDistinct = (exclusions: string[]): string => {
+  let candidate: string;
+  do {
+    candidate = symbols[Math.floor(Math.random() * symbols.length)];
+  } while (exclusions.includes(candidate));
+  return candidate;
+};
+
 const mapSymbolToValue: { [key: string]: number } = {
   money_mouth_face: 0,
   cold_face: 1,
@@ -55,7 +64,7 @@ export const SlotMachine: React.FC = () => {
     for (let i = 0; i < 3; i++) {
       const symbolsArray: string[] = [];
       for (let j = 0; j < 3; j++) {
-        symbolsArray.push(symbols[Math.floor(Math.random() * symbols.length)]);
+        symbolsArray.push(getRandomDistinct(symbolsArray));
       }
       initialSymbols.push(symbolsArray);
     }
@@ -84,12 +93,38 @@ export const SlotMachine: React.FC = () => {
       for (let j = 0; j < 30; j++) {
         spinSymbols.push(symbols[Math.floor(Math.random() * symbols.length)]);
       }
+      // Insert the API emoji at second-to-last position.
       spinSymbols.splice(spinSymbols.length - 1, 0, symbols[apiResult[i]]);
 
       updatedReelSymbols[i] = [...reelSymbols[i], ...spinSymbols];
 
       const spinDistance = -(spinSymbols.length * 60);
       newPositions[i] += spinDistance;
+    }
+
+    // Ensure the last three emojis in each reel are different without changing the API emoji.
+    for (let i = 0; i < 3; i++) {
+      const reel = updatedReelSymbols[i];
+      const len = reel.length;
+      const indexAPI = len - 2; // API emoji (cannot be changed)
+      const indexLast = len - 1; // Last emoji
+      const indexThird = len - 3; // Third-to-last emoji
+
+      // If last emoji equals API emoji, update it.
+      if (reel[indexLast] === reel[indexAPI]) {
+        console.log("last emoji equals API emoji");
+
+        reel[indexLast] = getRandomDistinct([reel[indexAPI]]);
+      }
+      // If third-to-last emoji equals API or last emoji, update it.
+      if (
+        reel[indexThird] === reel[indexAPI] ||
+        reel[indexThird] === reel[indexLast]
+      ) {
+        console.log("third-to-last emoji equals API or last emoji");
+
+        reel[indexThird] = getRandomDistinct([reel[indexAPI], reel[indexLast]]);
+      }
     }
 
     setReelSymbols(updatedReelSymbols);
