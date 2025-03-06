@@ -5,7 +5,7 @@ export function Button({
   onClick,
   variant = "primary",
 }: ButtonProps) {
-  const btnClass = `${variantClasses[variant]} rounded-md p-2`;
+  const btnClass = `${variantClasses[variant]} rounded-md w-full p-2`;
 
   return (
     <button onClick={onClick} className={btnClass}>
