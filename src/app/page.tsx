@@ -2,6 +2,7 @@ import { SlotMachine } from "@/components/slot-machine/SlotMachine";
 import "./globals.css";
 import { Sidebar } from "@/components/sidebar/Sidebar";
 import { Header } from "@/components/header/Header";
+import { Card } from "@/components/card/Card";
 
 export default function Home() {
   return (
@@ -12,6 +13,7 @@ export default function Home() {
         <Header />
 
         <div className="flex flex-1 justify-center items-center">
+          <Card />
           <SlotMachine />
         </div>
 
