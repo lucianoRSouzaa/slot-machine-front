@@ -9,7 +9,7 @@ interface ReelProps {
 
 export function Reel({ symbols, position, spinning, reelIndex }: ReelProps) {
   return (
-    <div className="w-[64px] h-[188px] overflow-hidden border-2 border-[#333] rounded-lg bg-[#333]">
+    <div className="w-[64px] h-[188px] overflow-hidden border-2 border-background-weaker rounded-lg bg-secondary-weaker">
       <div
         className="flex flex-col"
         style={{
