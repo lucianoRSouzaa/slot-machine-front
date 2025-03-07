@@ -6,8 +6,10 @@ import { Reel } from "./Reel";
 
 const symbols: string[] = ["🤑", "🥶", "👽", "❤️‍🔥", "💥"];
 
-// Helper to pick a random emoji excluding given ones.
-const getRandomDistinct = (exclusions: string[]): string => {
+export const getRandomDistinct = (
+  exclusions: string[],
+  symbols: string[]
+): string => {
   let candidate: string;
   do {
     candidate = symbols[Math.floor(Math.random() * symbols.length)];
@@ -64,7 +66,7 @@ export const SlotMachine: React.FC = () => {
     for (let i = 0; i < 3; i++) {
       const symbolsArray: string[] = [];
       for (let j = 0; j < 3; j++) {
-        symbolsArray.push(getRandomDistinct(symbolsArray));
+        symbolsArray.push(getRandomDistinct(symbolsArray, symbols));
       }
       initialSymbols.push(symbolsArray);
     }
@@ -114,7 +116,7 @@ export const SlotMachine: React.FC = () => {
       if (reel[indexLast] === reel[indexAPI]) {
         console.log("last emoji equals API emoji");
 
-        reel[indexLast] = getRandomDistinct([reel[indexAPI]]);
+        reel[indexLast] = getRandomDistinct([reel[indexAPI]], symbols);
       }
       // If third-to-last emoji equals API or last emoji, update it.
       if (
@@ -123,7 +125,10 @@ export const SlotMachine: React.FC = () => {
       ) {
         console.log("third-to-last emoji equals API or last emoji");
 
-        reel[indexThird] = getRandomDistinct([reel[indexAPI], reel[indexLast]]);
+        reel[indexThird] = getRandomDistinct(
+          [reel[indexAPI], reel[indexLast]],
+          symbols
+        );
       }
     }
 
@@ -158,7 +163,7 @@ export const SlotMachine: React.FC = () => {
   };
 
   return (
-    <div className="text-center bg-[#222] max-w-[300px] my-12 mx-auto p-5 rounded-lg">
+    <div className="text-center bg-backgound-card max-w-[300px] my-12 mx-auto p-5 rounded-lg">
       {reelSymbols.length > 0 ? (
         <>
           <div className="flex justify-center mb-5 gap-5">
