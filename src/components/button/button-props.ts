@@ -7,7 +7,7 @@ export interface ButtonProps extends React.HTMLProps<HTMLButtonElement> {
 export type VariantClasses = Record<Variant, string>;
 
 export const variantClasses: VariantClasses = {
-  primary: "bg-primary text-black",
+  primary: "bg-primary text-black hover:bg-primary/90",
   secondary:
     "bg-backgound text-white transition-colors hover:bg-accent hover:text-black",
 };
